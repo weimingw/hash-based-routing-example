@@ -46,7 +46,6 @@
         align-items: center;
         margin-right: 0.5rem;
         border-radius: 0.5rem;
-        transition: background 0.25s;
     }
 
     .pages > .selected {

@@ -9,9 +9,16 @@ body * {
 a {
     color: #0A0C71;
     text-decoration: none;
+    transition: background 0.25s;
+    cursor: pointer;
+    border-radius: 0.5rem;
 }
 
 a:hover {
     background: #E0E8F5;
     text-decoration: none;
+}
+
+p {
+    margin: 0;
 }
