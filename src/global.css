@@ -1,0 +1,17 @@
+html {
+    font-size: 10px;
+}
+
+body * {
+    font-size: 1.6rem;
+}
+
+a {
+    color: #0A0C71;
+    text-decoration: none;
+}
+
+a:hover {
+    background: #E0E8F5;
+    text-decoration: none;
+}
