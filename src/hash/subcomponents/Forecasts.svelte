@@ -17,11 +17,11 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
-    import data from '../data';
-    import sunny from '../assets/sunny.png';
-    import cloudy from '../assets/cloudy.png';
-    import rain from '../assets/rain.png';
-    import partlyCloudy from '../assets/partlyCloudy.png';
+    import data from '../../data';
+    import sunny from '../../assets/sunny.png';
+    import cloudy from '../../assets/cloudy.png';
+    import rain from '../../assets/rain.png';
+    import partlyCloudy from '../../assets/partlyCloudy.png';
 
     let country;
     let date;
@@ -97,8 +97,8 @@
     <div class="cities-container">
         {#key country + date}
             <div
-                in:fade={{ duration: 100, delay: 100 }}
-                out:fade={{ duration: 100 }}
+                in:fade|local={{ duration: 100, delay: 100 }}
+                out:fade|local={{ duration: 100 }}
                 class="cities"
             >
                 {#each selectedData as city (city.key)}
