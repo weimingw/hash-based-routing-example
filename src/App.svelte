@@ -2,7 +2,7 @@
     import HashBased from './hash/HashBased.svelte';
     import Normal from './normal/Normal.svelte';
 
-    let useHashBased = true;
+    let useHashBased = false;
     function onCheckboxChange(e) {
         useHashBased = e.target.checked;
         history.pushState({ }, '', '/');
