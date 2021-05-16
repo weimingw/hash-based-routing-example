@@ -12,11 +12,6 @@
         const basePath = window.location.hash.split('?')[0];
         return searchParamString.length ? `${basePath}?${searchParamString}` : basePath;
     }
-
-    function pushSearchParams(params) {
-        const newLocation = getNewLocation(params);
-        history.pushState({}, '', newLocation);
-    }
 </script>
 
 <script>
@@ -69,36 +64,36 @@
         <p>Pick a country:</p>
         <a
             class:selected={country === 'unitedStates'}
-            href={getNewLocation({ date, country: 'unitedStates' })}>United States</a
+            href={getNewLocation({ date, country: 'unitedStates' })}
         >
-        <a class:selected={country === 'canada'} href={getNewLocation({ date, country: 'canada' })}
-            >Canada</a
-        >
-        <a
-            class:selected={country === 'unitedStates'}
-            on:click={() => pushSearchParams({ date, country: 'unitedStates' })}>United States</a
-        >
-        <a
-            class:selected={country === 'canada'}
-            on:click={() => pushSearchParams({ date, country: 'canada' })}>Canada</a
-        >
+            United States
+        </a>
+        <a class:selected={country === 'canada'} href={getNewLocation({ date, country: 'canada' })}>
+            Canada
+        </a>
     </div>
     <div class="dates">
         <p>Pick a day:</p>
         <a
             class:selected={date === '17/05/2021'}
-            href={getNewLocation({ date: '17/05/2021', country })}>17 May 2021</a
+            href={getNewLocation({ date: '17/05/2021', country })}
         >
+            17 May 2021
+        </a>
         <a
             class:selected={date === '18/05/2021'}
-            href={getNewLocation({ date: '18/05/2021', country })}>18 May 2021</a
+            href={getNewLocation({ date: '18/05/2021', country })}
         >
+            18 May 2021
+        </a>
         <a
             class:selected={date === '19/05/2021'}
-            href={getNewLocation({ date: '19/05/2021', country })}>19 May 2021</a
+            href={getNewLocation({ date: '19/05/2021', country })}
         >
+            19 May 2021
+        </a>
     </div>
-    <h3>{data[country] && data[country].label}</h3>
+    <h3>Data for cities in {data[country] && data[country].label}</h3>
     <div class="cities-container">
         {#key country + date}
             <div
@@ -107,9 +102,17 @@
                 class="cities"
             >
                 {#each selectedData as city (city.key)}
-                    <div>
+                    <div class="city">
                         <h5>{city.label}</h5>
                         <img src={getIcon(city.icon)} alt={city.icon} />
+                        <div class='city-row'>
+                            <div>Temperature:</div>
+                            <div>{city.temperature}F</div>
+                        </div>
+                        <div class='city-row'>
+                            <div>Chance of rain:</div>
+                            <div>{city.rainChance}%</div>
+                        </div>
                     </div>
                 {/each}
             </div>
@@ -118,6 +121,10 @@
 </div>
 
 <style>
+
+    h3 {
+        margin-top: 2rem;
+    }
     .forecasts {
         display: flex;
         flex-direction: column;
@@ -164,9 +171,25 @@
         align-items: stretch;
     }
 
-    .cities > * {
+    .city {
         width: 24rem;
         height: 24rem;
+        padding: 0.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .city > * {
+        margin-bottom: 0.5rem;
+    }
+
+    .city-row {
+        display: flex;
+    }
+
+    .city-row > * {
+        margin-right: 0.5rem;
     }
 
     @media screen and (max-width: 720px) {

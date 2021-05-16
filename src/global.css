@@ -28,6 +28,18 @@ a.selected {
     background: #C1D1EB;
 }
 
-p, h5 {
+p {
     margin: 0;
+}
+
+h3 {
+    font-size: 2.4rem;
+    font-weight: normal;
+    margin: 1rem 0;
+}
+
+h5 {
+    font-size: 2rem;
+    font-weight: normal;
+    margin: 0.5rem 0;
 }

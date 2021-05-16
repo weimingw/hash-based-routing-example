@@ -1,6 +1,8 @@
 <script>
     import uniqueId from 'lodash';
     import { onMount, onDestroy } from 'svelte';
+    import { fade } from 'svelte/transition';
+    import { flip } from 'svelte/animate';
     import Router from 'svelte-spa-router';
     import Forecasts from './subcomponents/Forecasts.svelte';
     import LandingPage from './subcomponents/LandingPage.svelte';
@@ -43,8 +45,8 @@
 
 <div class="app">
     <div class="notifications">
-        {#each notifications as notification (notification.id)}
-            <div>{notification.text}</div>
+        {#each [...notifications].reverse() as notification (notification.id)}
+            <div animate:flip transition:fade>{notification.text}</div>
         {/each}
     </div>
     <div class="pages header">
@@ -62,9 +64,9 @@
         />
     </div>
     <div class="footer">
-        <a href="https://www.freepik.com/vectors/icons"
-            >Icons vector created by anindyanfitri - www.freepik.com</a
-        >
+        <a href="https://www.freepik.com/vectors/icons">
+            Icons vector created by anindyanfitri - www.freepik.com
+        </a>
     </div>
 </div>
 
