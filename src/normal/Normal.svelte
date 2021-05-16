@@ -71,7 +71,7 @@
         </div>
         <div class="content">
             <Route path="/forecast" component={Forecasts} />
-            <Route path="/" component={LandingPage} />
+            <Route path="/*" component={LandingPage} />
         </div>
         <div class="footer">
             <a href="https://www.freepik.com/vectors/icons">

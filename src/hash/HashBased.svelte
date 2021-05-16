@@ -58,8 +58,8 @@
     <div class="content">
         <Router
             routes={{
-                '/': LandingPage,
                 '/forecast': Forecasts,
+                '/*': LandingPage,
             }}
         />
     </div>
