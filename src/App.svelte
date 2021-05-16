@@ -1,11 +1,16 @@
 <script>
+    import { onMount } from 'svelte';
     import HashBased from './hash/HashBased.svelte';
     import Normal from './normal/Normal.svelte';
+
+    onMount(() => {
+        history.pushState({}, '', '/');
+    });
 
     let useHashBased = false;
     function onCheckboxChange(e) {
         useHashBased = e.target.checked;
-        history.pushState({ }, '', '/');
+        history.pushState({}, '', '/');
     }
 </script>
 
