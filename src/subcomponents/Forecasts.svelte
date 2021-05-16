@@ -1,7 +1,4 @@
-<script>
-    import { onMount, onDestroy } from 'svelte';
-    import data from '../data';
-
+<script context="module">
     function getSearchParams() {
         const path = window.location.hash.split('?');
         return path.length > 1 ? new URLSearchParams(path[1]) : new URLSearchParams();
@@ -19,18 +16,25 @@
     function pushSearchParams(params) {
         const newLocation = getNewLocation(params);
         history.pushState({}, '', newLocation);
-        window.dispatchEvent(
-            new HashChangeEvent('hashchange', { oldURL: window.location.href, newURL: newLocation })
-        );
     }
+</script>
+
+<script>
+    import { onMount, onDestroy } from 'svelte';
+    import { fade } from 'svelte/transition';
+    import data from '../data';
+    import sunny from '../assets/sunny.png';
+    import cloudy from '../assets/cloudy.png';
+    import rain from '../assets/rain.png';
+    import partlyCloudy from '../assets/partlyCloudy.png';
 
     let country;
     let date;
     let selectedData = [];
     function getData() {
         const params = getSearchParams();
-        country = params.country || 'unitedStates';
-        date = params.date || '17/05/2021';
+        country = params.get('country') || 'unitedStates';
+        date = params.get('date') || '17/05/2021';
         selectedData = data[country].data.map((city) => {
             return { key: city.key, label: city.label, ...city.data[date] };
         });
@@ -48,22 +52,14 @@
     function getIcon(icon) {
         switch (icon) {
             case 'rain':
-                return;
+                return rain;
             case 'cloudy':
-                return;
+                return cloudy;
             case 'partlyCloudy':
-                return;
+                return partlyCloudy;
             default:
-                return;
+                return sunny;
         }
-    }
-
-    function updateCountry(newCountry) {
-        pushSearchParams({ country: newCountry, date });
-    }
-
-    function updateDate(newDate) {
-        pushSearchParams({ country, date: newDate });
     }
 </script>
 
@@ -71,23 +67,53 @@
 <div class="forecasts">
     <div class="countries">
         <p>Pick a country:</p>
-        <a on:click={() => updateCountry('unitedStates')}>United States</a>
-        <a on:click={() => updateCountry('canada')}>Canada</a>
+        <a
+            class:selected={country === 'unitedStates'}
+            href={getNewLocation({ date, country: 'unitedStates' })}>United States</a
+        >
+        <a class:selected={country === 'canada'} href={getNewLocation({ date, country: 'canada' })}
+            >Canada</a
+        >
+        <a
+            class:selected={country === 'unitedStates'}
+            on:click={() => pushSearchParams({ date, country: 'unitedStates' })}>United States</a
+        >
+        <a
+            class:selected={country === 'canada'}
+            on:click={() => pushSearchParams({ date, country: 'canada' })}>Canada</a
+        >
     </div>
     <div class="dates">
         <p>Pick a day:</p>
-        <a on:click={() => updateDate('17/05/2021')}>17 May 2021</a>
-        <a on:click={() => updateDate('18/05/2021')}>18 May 2021</a>
-        <a on:click={() => updateDate('19/05/2021')}>19 May 2021</a>
+        <a
+            class:selected={date === '17/05/2021'}
+            href={getNewLocation({ date: '17/05/2021', country })}>17 May 2021</a
+        >
+        <a
+            class:selected={date === '18/05/2021'}
+            href={getNewLocation({ date: '18/05/2021', country })}>18 May 2021</a
+        >
+        <a
+            class:selected={date === '19/05/2021'}
+            href={getNewLocation({ date: '19/05/2021', country })}>19 May 2021</a
+        >
     </div>
-    <h3>{data[country]}</h3>
-    <div class="cities">
-        {#each selectedData as city (city.key)}
-            <div>
-                <h5>{city.label}</h5>
-                <div>{getIcon(city.icon)}</div>
+    <h3>{data[country] && data[country].label}</h3>
+    <div class="cities-container">
+        {#key country + date}
+            <div
+                in:fade={{ duration: 100, delay: 100 }}
+                out:fade={{ duration: 100 }}
+                class="cities"
+            >
+                {#each selectedData as city (city.key)}
+                    <div>
+                        <h5>{city.label}</h5>
+                        <img src={getIcon(city.icon)} alt={city.icon} />
+                    </div>
+                {/each}
             </div>
-        {/each}
+        {/key}
     </div>
 </div>
 
@@ -97,17 +123,26 @@
         flex-direction: column;
     }
 
+    .cities-container {
+        display: relative;
+    }
+
+    .cities {
+        position: absolute;
+    }
+
     .countries {
         display: flex;
         margin: 0.3rem;
     }
 
     .countries > * {
-        width: 12rem;
+        width: 13rem;
         height: 3rem;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-right: 0.5rem;
     }
 
     .dates {
@@ -116,10 +151,27 @@
     }
 
     .dates > * {
-        width: 12rem;
+        width: 13rem;
         height: 3rem;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-right: 0.5rem;
+    }
+
+    .cities {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .cities > * {
+        width: 24rem;
+        height: 24rem;
+    }
+
+    @media screen and (max-width: 720px) {
+        .cities {
+            flex-direction: column;
+        }
     }
 </style>

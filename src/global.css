@@ -2,8 +2,13 @@ html {
     font-size: 10px;
 }
 
+body {
+    padding: 0;
+}
+
 body * {
     font-size: 1.6rem;
+    box-sizing: border-box;
 }
 
 a {
@@ -19,6 +24,10 @@ a:hover {
     text-decoration: none;
 }
 
-p {
+a.selected {
+    background: #C1D1EB;
+}
+
+p, h5 {
     margin: 0;
 }
