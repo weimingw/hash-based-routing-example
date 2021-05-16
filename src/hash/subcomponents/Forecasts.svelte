@@ -17,7 +17,7 @@
             .filter((entry) => entry[1] != null)
             .map(([key, value]) => `${key}=${value}`)
             .join('&');
-        const basePath = window.location.hash.split('?')[0];
+        const basePath = window.location.href.split('?')[0];
         return searchParamString.length ? `${basePath}?${searchParamString}` : basePath;
     }
 
@@ -103,11 +103,11 @@
                     <div class="city">
                         <h5>{city.label}</h5>
                         <img src={getIcon(city.icon)} alt={city.icon} />
-                        <div class='city-row'>
+                        <div class="city-row">
                             <div>Temperature:</div>
                             <div>{city.temperature}F</div>
                         </div>
-                        <div class='city-row'>
+                        <div class="city-row">
                             <div>Chance of rain:</div>
                             <div>{city.rainChance}%</div>
                         </div>
@@ -119,7 +119,6 @@
 </div>
 
 <style>
-
     h3 {
         margin-top: 2rem;
     }

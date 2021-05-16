@@ -17,7 +17,7 @@
             .filter((entry) => entry[1] != null)
             .map(([key, value]) => `${key}=${value}`)
             .join('&');
-        const basePath = window.location.pathname;
+        const basePath = window.location.href;
         return searchParamString.length ? `${basePath}?${searchParamString}` : basePath;
     }
 

@@ -50,16 +50,22 @@
         {/each}
     </div>
     <div class="pages header">
-        <a class="link" class:selected={selectedPage === '/#/'} href="/#/">Home</a>
-        <a class="link" class:selected={selectedPage === '/#/forecast'} href="/#/forecast"
-            >Forecasts</a
+        <a
+            class="link"
+            class:selected={selectedPage === '/hashed-routes-example/#/'}
+            href="/hashed-routes-example/#/">Home</a
+        >
+        <a
+            class="link"
+            class:selected={selectedPage === '/hashed-routes-example/#/forecast'}
+            href="hashed-routes-example/#/forecast">Forecasts</a
         >
     </div>
     <div class="content">
         <Router
             routes={{
-                '/': LandingPage,
-                '/forecast': Forecasts,
+                '/hashed-routes-example/#/': LandingPage,
+                '/hashed-routes-example/#/forecast': Forecasts,
             }}
         />
     </div>

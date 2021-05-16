@@ -57,21 +57,21 @@
             <a
                 use:link
                 class="link"
-                class:selected={selectedPage === '/'}
-                href="/"
-                on:click={() => setSelectedPage('/')}>Home</a
+                class:selected={selectedPage === '/hashed-routes-example/'}
+                href="/hashed-routes-example/"
+                on:click={() => setSelectedPage('/hashed-routes-example/')}>Home</a
             >
             <a
                 use:link
                 class="link"
-                class:selected={selectedPage === '/forecast'}
-                href="/forecast"
-                on:click={() => setSelectedPage('/forecast')}>Forecasts</a
+                class:selected={selectedPage === '/hashed-routes-example/forecast'}
+                href="/hashed-routes-example/forecast"
+                on:click={() => setSelectedPage('/hashed-routes-example/forecast')}>Forecasts</a
             >
         </div>
         <div class="content">
-            <Route path="/forecast" component={Forecasts} />
-            <Route path="/" component={LandingPage} />
+            <Route path="/hashed-routes-example/forecast" component={Forecasts} />
+            <Route path="/hashed-routes-example/" component={LandingPage} />
         </div>
         <div class="footer">
             <a href="https://www.freepik.com/vectors/icons">
