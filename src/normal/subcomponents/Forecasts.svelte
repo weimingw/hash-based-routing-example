@@ -63,6 +63,8 @@
 <!-- Idea: Filter by US or Canada, display a page of all cities in the selected country, then click to filter by date -->
 <div class="forecasts">
     <div class="countries">
+        <a href='#b'>What</a>
+        <a href='#a'>Now</a>
         <div>Pick a country:</div>
         <a
             use:link

@@ -10,7 +10,6 @@
     // to highlight the selected page
     let selectedPage = '';
     let notifications = [];
-    $: console.log(selectedPage);
     function setSelectedPage(page) {
         selectedPage = page;
     }
