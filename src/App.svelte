@@ -9,7 +9,7 @@
     let selectedPage = '';
     let notifications = [];
     function setSelectedPage() {
-        selectedPage = '/' + window.location.hash.split('?')[0];
+        selectedPage = '/' + window.location.pathname;
     }
     function addNotification(message) {
         const id = uniqueId();
@@ -29,13 +29,13 @@
     onMount(() => {
         // run it once on load
         setSelectedPage();
-        window.addEventListener('hashchange', setSelectedPage);
+        window.addEventListener('popstate', setSelectedPage);
         window.addEventListener('hashchange', notifyHashChange);
         window.addEventListener('popstate', notifyPopState);
     });
 
     onDestroy(() => {
-        window.removeEventListener('hashchange', setSelectedPage);
+        window.removeEventListener('popstate', setSelectedPage);
         window.removeEventListener('hashchange', notifyHashChange);
         window.removeEventListener('popstate', notifyPopState);
     });

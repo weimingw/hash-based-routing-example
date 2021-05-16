@@ -22,6 +22,7 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { link } from 'svelte-routing';
     import data from '../data';
     import sunny from '../assets/sunny.png';
     import cloudy from '../assets/cloudy.png';
@@ -68,32 +69,30 @@
     <div class="countries">
         <p>Pick a country:</p>
         <a
+            use:link
             class:selected={country === 'unitedStates'}
             href={getNewLocation({ date, country: 'unitedStates' })}>United States</a
         >
-        <a class:selected={country === 'canada'} href={getNewLocation({ date, country: 'canada' })}
-            >Canada</a
-        >
         <a
-            class:selected={country === 'unitedStates'}
-            on:click={() => pushSearchParams({ date, country: 'unitedStates' })}>United States</a
-        >
-        <a
+            use:link
             class:selected={country === 'canada'}
-            on:click={() => pushSearchParams({ date, country: 'canada' })}>Canada</a
+            href={getNewLocation({ date, country: 'canada' })}>Canada</a
         >
     </div>
     <div class="dates">
         <p>Pick a day:</p>
         <a
+            use:link
             class:selected={date === '17/05/2021'}
             href={getNewLocation({ date: '17/05/2021', country })}>17 May 2021</a
         >
         <a
+            use:link
             class:selected={date === '18/05/2021'}
             href={getNewLocation({ date: '18/05/2021', country })}>18 May 2021</a
         >
         <a
+            use:link
             class:selected={date === '19/05/2021'}
             href={getNewLocation({ date: '19/05/2021', country })}>19 May 2021</a
         >
