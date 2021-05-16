@@ -1,7 +1,7 @@
 <script>
     import uniqueId from 'lodash';
     import { onMount, onDestroy } from 'svelte';
-    import Router from 'svelte-spa-router';
+    import { Router, link, Route } from 'svelte-routing';
     import Forecasts from './subcomponents/Forecasts.svelte';
     import LandingPage from './subcomponents/LandingPage.svelte';
 
@@ -42,30 +42,28 @@
 </script>
 
 <div class="app">
-    <div class="notifications">
-        {#each notifications as notification (notification.id)}
-            <div>{notification.text}</div>
-        {/each}
-    </div>
-    <div class="pages header">
-        <a class="link" class:selected={selectedPage === '/#/'} href="/#/">Home</a>
-        <a class="link" class:selected={selectedPage === '/#/forecast'} href="/#/forecast"
-            >Forecasts</a
-        >
-    </div>
-    <div class="content">
-        <Router
-            routes={{
-                '/': LandingPage,
-                '/forecast': Forecasts,
-            }}
-        />
-    </div>
-    <div class="footer">
-        <a href="https://www.freepik.com/vectors/icons"
-            >Icons vector created by anindyanfitri - www.freepik.com</a
-        >
-    </div>
+    <Router>
+        <div class="notifications">
+            {#each notifications as notification (notification.id)}
+                <div>{notification.text}</div>
+            {/each}
+        </div>
+        <div class="pages header">
+            <a use:link class="link" class:selected={selectedPage === '/'} href="/">Home</a>
+            <a use:link class="link" class:selected={selectedPage === '/forecast'} href="/forecast">
+                Forecasts
+            </a>
+        </div>
+        <div class="content">
+            <Route path="/forecast" component={Forecasts} />
+            <Route path="/" component={LandingPage} />
+        </div>
+        <div class="footer">
+            <a href="https://www.freepik.com/vectors/icons">
+                Icons vector created by anindyanfitri - www.freepik.com
+            </a>
+        </div>
+    </Router>
 </div>
 
 <style>
@@ -110,12 +108,12 @@
     .notifications > * {
         padding: 0.5rem 1rem;
         border-radius: 0.25rem;
-        background: #2A628F;
+        background: #2a628f;
         color: #ffffff;
         margin-bottom: 0.5rem;
     }
 
-    .footer > a{
+    .footer > a {
         padding: 0.5rem 1rem;
     }
 </style>
