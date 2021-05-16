@@ -1,4 +1,12 @@
-<script context="module">
+<script>
+    import { onMount, onDestroy } from 'svelte';
+    import { fade } from 'svelte/transition';
+    import data from '../../data';
+    import sunny from '../../assets/sunny.png';
+    import cloudy from '../../assets/cloudy.png';
+    import rain from '../../assets/rain.png';
+    import partlyCloudy from '../../assets/partlyCloudy.png';
+
     function getSearchParams() {
         const path = window.location.hash.split('?');
         return path.length > 1 ? new URLSearchParams(path[1]) : new URLSearchParams();
@@ -12,16 +20,6 @@
         const basePath = window.location.hash.split('?')[0];
         return searchParamString.length ? `${basePath}?${searchParamString}` : basePath;
     }
-</script>
-
-<script>
-    import { onMount, onDestroy } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import data from '../../data';
-    import sunny from '../../assets/sunny.png';
-    import cloudy from '../../assets/cloudy.png';
-    import rain from '../../assets/rain.png';
-    import partlyCloudy from '../../assets/partlyCloudy.png';
 
     let country;
     let date;
@@ -36,12 +34,12 @@
     }
 
     onMount(() => {
-        window.addEventListener('hashchange', getData);
+        window.addEventListener('popstate', getData);
         getData();
     });
 
     onDestroy(() => {
-        window.removeEventListener('hashchange', getData);
+        window.removeEventListener('popstate', getData);
     });
 
     function getIcon(icon) {
@@ -61,7 +59,7 @@
 <!-- Idea: Filter by US or Canada, display a page of all cities in the selected country, then click to filter by date -->
 <div class="forecasts">
     <div class="countries">
-        <p>Pick a country:</p>
+        <div>Pick a country:</div>
         <a
             class:selected={country === 'unitedStates'}
             href={getNewLocation({ date, country: 'unitedStates' })}
@@ -73,7 +71,7 @@
         </a>
     </div>
     <div class="dates">
-        <p>Pick a day:</p>
+        <div>Pick a day:</div>
         <a
             class:selected={date === '17/05/2021'}
             href={getNewLocation({ date: '17/05/2021', country })}

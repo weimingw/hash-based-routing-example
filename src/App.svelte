@@ -5,6 +5,7 @@
     let useHashBased = true;
     function onCheckboxChange(e) {
         useHashBased = e.target.checked;
+        history.pushState({ }, '', '/');
     }
 </script>
 

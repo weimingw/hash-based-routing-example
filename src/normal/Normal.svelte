@@ -3,15 +3,19 @@
     import { onMount, onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
     import { flip } from 'svelte/animate';
-    import Router from 'svelte-spa-router';
+    import { link, Router, Route } from 'svelte-routing';
     import Forecasts from './subcomponents/Forecasts.svelte';
     import LandingPage from './subcomponents/LandingPage.svelte';
 
     // to highlight the selected page
     let selectedPage = '';
     let notifications = [];
-    function setSelectedPage() {
-        selectedPage = '/' + window.location.hash.split('?')[0];
+    $: console.log(selectedPage);
+    function setSelectedPage(page) {
+        selectedPage = page;
+    }
+    function setSelectedPageFromUrl() {
+        selectedPage = window.location.pathname;
     }
     function addNotification(message) {
         const id = uniqueId();
@@ -31,43 +35,51 @@
     onMount(() => {
         // run it once on load
         setSelectedPage();
-        window.addEventListener('hashchange', setSelectedPage);
+        window.addEventListener('popstate', setSelectedPageFromUrl);
         window.addEventListener('hashchange', notifyHashChange);
         window.addEventListener('popstate', notifyPopState);
     });
 
     onDestroy(() => {
-        window.removeEventListener('hashchange', setSelectedPage);
+        window.removeEventListener('popstate', setSelectedPageFromUrl);
         window.removeEventListener('hashchange', notifyHashChange);
         window.removeEventListener('popstate', notifyPopState);
     });
 </script>
 
 <div class="page">
-    <div class="notifications">
-        {#each [...notifications].reverse() as notification (notification.id)}
-            <div animate:flip transition:fade|local>{notification.text}</div>
-        {/each}
-    </div>
-    <div class="pages header">
-        <a class="link" class:selected={selectedPage === '/#/'} href="/#/">Home</a>
-        <a class="link" class:selected={selectedPage === '/#/forecast'} href="/#/forecast"
-            >Forecasts</a
-        >
-    </div>
-    <div class="content">
-        <Router
-            routes={{
-                '/': LandingPage,
-                '/forecast': Forecasts,
-            }}
-        />
-    </div>
-    <div class="footer">
-        <a href="https://www.freepik.com/vectors/icons">
-            Icons vector created by anindyanfitri - www.freepik.com
-        </a>
-    </div>
+    <Router>
+        <div class="notifications">
+            {#each [...notifications].reverse() as notification (notification.id)}
+                <div animate:flip transition:fade|local>{notification.text}</div>
+            {/each}
+        </div>
+        <div class="pages header">
+            <a
+                use:link
+                class="link"
+                class:selected={selectedPage === '/'}
+                href="/"
+                on:click={() => setSelectedPage('/')}>Home</a
+            >
+            <a
+                use:link
+                class="link"
+                class:selected={selectedPage === '/forecast'}
+                href="/forecast"
+                on:click={() => setSelectedPage('/forecast')}>Forecasts</a
+            >
+        </div>
+        <div class="content">
+            <Route path="/forecast" component={Forecasts} />
+            <Route path="/" component={LandingPage} />
+        </div>
+        <div class="footer">
+            <a href="https://www.freepik.com/vectors/icons">
+                Icons vector created by anindyanfitri - www.freepik.com
+            </a>
+        </div>
+    </Router>
 </div>
 
 <style>
